@@ -102,7 +102,18 @@ describe User do
   end
 
   describe "with a password that's too short" do
-	before { @user.password = @user.password_confirmation = "a" * 5 }
-	it { should be_invalid }
+	 before { @user.password = @user.password_confirmation = "a" * 5 }
+	 it { should be_invalid }
+  end
+
+  describe "email to be converted to downcase" do
+
+    let(:uppercase_email) { "USER@EXAMPLE.COM" }
+
+    it "should have lowercase email" do
+      @user.email = uppercase_email
+      @user.save
+      @user.reload.email.should == uppercase_email.downcase
+    end
   end
 end
